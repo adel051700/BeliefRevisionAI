@@ -11,6 +11,7 @@ public class Main {
         Atom p = new Atom("p");
         Atom q = new Atom("q");
         Atom r = new Atom("r");
+        Atom s = new Atom("s");
 
         // Create formulas
         Formula impl1 = new Implication(p, q);
@@ -60,5 +61,24 @@ public class Main {
         beliefBase.removeFormula(p);
         System.out.println("Updated belief base:");
         System.out.println(beliefBase);
+
+        System.out.println("\n=== CNF Conversion Test ===");
+
+        // Test CNF Conversion
+        System.out.println("\n=== CNF Conversion Test ===");
+
+        Formula implication1 = new Implication(p, q);
+        Formula implication2 = new Implication(r, s);
+        Formula complexFormula = new Conjunction(implication1, implication2);
+
+        // Print the original formula
+        System.out.println("Original formula: " + complexFormula);
+
+        // Convert to CNF
+        Formula cnfFormula = CNFConverter.toCNF(complexFormula);
+
+        // Print the CNF version
+        System.out.println("CNF formula: " + cnfFormula);
+
     }
 }
