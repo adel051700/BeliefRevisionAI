@@ -2,6 +2,9 @@ package revision.belief;
 import revision.belief.beliefbase.BeliefBase;
 import revision.belief.logic.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Main {
     public static void main(String[] args) {
         System.out.println("Belief Revision System Demo");
@@ -79,6 +82,16 @@ public class Main {
 
         // Print the CNF version
         System.out.println("CNF formula: " + cnfFormula);
+
+        // Test Resolution
+        Set<Formula> kb = new HashSet<>();
+        kb.add(new Implication(new Atom("p"), new Atom("q")));
+        kb.add(new Atom("p"));
+
+        Formula query = new Atom("q");
+
+        boolean result = ResolutionProver.entails(kb, query);
+        System.out.println("Entailment result: " + result);
 
     }
 }
