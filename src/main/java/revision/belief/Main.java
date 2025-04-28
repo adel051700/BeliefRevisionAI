@@ -90,7 +90,23 @@ public class Main {
 
         Formula query = new Atom("q");
 
-        boolean result = ResolutionProver.entails(kb, query);
+        //boolean result = ResolutionProver.entails(kb, query);
+        //System.out.println("Entailment result: " + result);
+
+        // Test BeliefBase Entailment
+
+        Formula implication = new Implication(p, q);
+        beliefBase.addBelief(p, 3);
+        beliefBase.addBelief(implication, 2);
+
+        // Show the belief base
+        System.out.println("Belief Base:");
+        System.out.println(beliefBase);
+
+        System.out.println("Checking if belief base entails q...");
+
+        boolean result = beliefBase.entails(q);
+
         System.out.println("Entailment result: " + result);
 
     }

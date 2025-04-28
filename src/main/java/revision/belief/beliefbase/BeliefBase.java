@@ -3,6 +3,7 @@ package revision.belief.beliefbase;
 import revision.belief.logic.Formula;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class BeliefBase {
     private final List<BeliefEntry> beliefs;
@@ -21,8 +22,8 @@ public class BeliefBase {
         return beliefs.stream().anyMatch(entry -> entry.getFormula().equals(formula));
     }
 
-    public List<Formula> getAllFormulas() {
-        return beliefs.stream().map(BeliefEntry::getFormula).toList();
+    public Set<Formula> getAllFormulas() {
+        return beliefs.stream().map(BeliefEntry::getFormula).collect(Collectors.toSet());
     }
 
     public List<BeliefEntry> getAllBeliefs() {
@@ -60,4 +61,17 @@ public class BeliefBase {
             return priority;
         }
     }
+
+    public boolean entails(Formula formula) {
+        return revision.belief.logic.ResolutionProver.entails(getAllFormulas(), formula);
+    }
+
+    public String formulasToString() {
+        StringBuilder sb = new StringBuilder();
+        for (BeliefEntry entry : beliefs) {
+            sb.append(entry.getFormula()).append("\n");
+        }
+        return sb.toString();
+    }
+
 }
