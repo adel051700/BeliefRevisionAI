@@ -25,14 +25,7 @@ public class Conjunction implements Formula {
         return new Disjunction(left.negate(), right.negate());
     }
 
-    @Override
-    public boolean isConsistent() {
-        BeliefBase tempBase = new BeliefBase();
-        tempBase.addBelief(this,1);
 
-        Formula contradiction = new Conjunction(new Atom("contradiction"), new Negation(new Atom("contradiction")));
-        return !tempBase.entails(contradiction);
-    }
 
     @Override
     public boolean equals(Object obj) {

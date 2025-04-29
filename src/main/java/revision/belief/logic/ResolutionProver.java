@@ -96,4 +96,22 @@ public class ResolutionProver {
     private static boolean isComplementary(Logic.Literal l1, Logic.Literal l2) {
         return l1.getAtom().equals(l2.getAtom()) && (l1.isNegated() != l2.isNegated());
     }
+
+    public static boolean isContradiction(Set<Formula> formulas) {
+        // An empty set of formulas is consistent
+        if (formulas.isEmpty()) {
+            return false;
+        }
+
+        // A set of formulas is inconsistent if it entails false
+        // This can be tested by seeing if formulas ⊢ ⊥
+        // Equivalently, we can check if adding a tautology's negation leads to a contradiction
+        // by using entails(formulas, tautology)
+
+        // Using p ∨ ¬p as a tautology
+        Atom p = new Atom("p");
+        Formula tautology = new Disjunction(p, new Negation(p));
+
+        return entails(formulas, tautology);
+    }
 }

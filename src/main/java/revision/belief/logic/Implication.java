@@ -26,15 +26,6 @@ public class Implication implements Formula {
     }
 
     @Override
-    public boolean isConsistent() {
-        BeliefBase tempBase = new BeliefBase();
-        tempBase.addBelief(this,1);
-
-        Formula contradiction = new Conjunction(new Atom("contradiction"), new Negation(new Atom("contradiction")));
-        return !tempBase.entails(contradiction);
-    }
-
-    @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (!(obj instanceof Implication)) return false;

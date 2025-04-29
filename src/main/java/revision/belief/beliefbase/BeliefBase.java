@@ -91,4 +91,12 @@ public class BeliefBase {
         return clonedBeliefBase;
     }
 
+    public boolean isConsistent() {
+        if(beliefs.isEmpty()) {
+            return true; // An empty belief base is consistent
+        }
+        Set<Formula> formulas = getAllFormulas();
+        return !revision.belief.logic.ResolutionProver.isContradiction(formulas);
+    }
+
 }
