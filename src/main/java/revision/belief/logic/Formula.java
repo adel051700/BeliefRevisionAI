@@ -4,6 +4,5 @@ import revision.belief.beliefbase.BeliefBase;
 public interface Formula {
     Formula negate();
 
-    boolean isConsistent();
 
 }

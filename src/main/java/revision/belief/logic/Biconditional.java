@@ -37,14 +37,6 @@ public class Biconditional implements Formula {
                (left.equals(other.right) && right.equals(other.left));
     }
 
-    @Override
-    public boolean isConsistent() {
-        BeliefBase tempBase = new BeliefBase();
-        tempBase.addBelief(this,1);
-
-        Formula contradiction = new Conjunction(new Atom("contradiction"), new Negation(new Atom("contradiction")));
-        return !tempBase.entails(contradiction);
-    }
 
     @Override
     public int hashCode() {
