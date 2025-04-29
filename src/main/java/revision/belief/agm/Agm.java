@@ -1,9 +1,12 @@
 package revision.belief.agm;
 
 import revision.belief.beliefbase.BeliefBase;
+import revision.belief.logic.Biconditional;
 import revision.belief.logic.Formula;
 import revision.belief.logic.Negation;
 import revision.belief.revision.Revision;
+
+import java.text.Normalizer;
 
 public class Agm {
 
@@ -38,5 +41,18 @@ public class Agm {
             return true;
         }
         Revision.revise(base, formula, pritority);
+
+    }
+
+    public boolean satisfyExtensionality(BeliefBase base, Formula formula, int priority) {
+        if(formula instanceof Biconditional){
+            BeliefBase tempBase = base.clone();
+            Formula left=((Biconditional) formula).getLeft();
+            Formula right=((Biconditional) formula).getRight();
+            Revision.revise(base, left, priority);
+            Revision.revise(tempBase, right, priority);
+            return base.equals(tempBase);
+        }
+        return false;
     }
 }
