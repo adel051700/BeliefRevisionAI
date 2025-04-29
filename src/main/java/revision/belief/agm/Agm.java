@@ -19,4 +19,13 @@ public class Agm {
 
     }
 
+    public boolean satisfyVacuity(BeliefBase base, Formula formula, int priority){
+        if(!base.contains(formula.negate())){
+            BeliefBase beliefBase = base.clone();
+            Revision.revise(base, formula, priority);
+            Revision.expand(beliefBase, formula, priority);
+            return base.equals(beliefBase);
+        }
+        return false;
+    }
 }

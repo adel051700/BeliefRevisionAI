@@ -83,4 +83,12 @@ public class BeliefBase {
         return true;
     }
 
+    public BeliefBase clone() {
+        BeliefBase clonedBeliefBase = new BeliefBase();
+        for (BeliefEntry entry : beliefs) {
+            clonedBeliefBase.addBelief(entry.getFormula(), entry.getPriority());
+        }
+        return clonedBeliefBase;
+    }
+
 }
