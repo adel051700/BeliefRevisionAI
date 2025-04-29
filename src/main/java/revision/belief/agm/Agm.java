@@ -2,6 +2,7 @@ package revision.belief.agm;
 
 import revision.belief.beliefbase.BeliefBase;
 import revision.belief.logic.Formula;
+import revision.belief.logic.Negation;
 import revision.belief.revision.Revision;
 
 public class Agm {
@@ -16,7 +17,10 @@ public class Agm {
     }
 
     public boolean satisfyInclusion(BeliefBase base, Formula formula, int priority) {
-
+        BeliefBase expandedBase = base.clone();
+        Revision.revise(base, formula, priority);
+        Revision.expand(expandedBase, formula, priority);
+        return base.isSubsetOf(expandedBase);
     }
 
     public boolean satisfyVacuity(BeliefBase base, Formula formula, int priority){
@@ -27,5 +31,12 @@ public class Agm {
             return base.equals(beliefBase);
         }
         return false;
+    }
+
+    public boolean satisfyConsistency(BeliefBase base, Formula formula, int pritority) {
+        if(formula != null && base.entails(new Negation(formula))) {
+            return true;
+        }
+        Revision.revise(base, formula, pritority);
     }
 }
