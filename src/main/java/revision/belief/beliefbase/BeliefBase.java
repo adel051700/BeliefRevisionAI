@@ -74,4 +74,13 @@ public class BeliefBase {
         return sb.toString();
     }
 
+    public boolean isSubsetOf(BeliefBase other) {
+        for (BeliefEntry entry : beliefs) {
+            if (!other.contains(entry.getFormula())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }
