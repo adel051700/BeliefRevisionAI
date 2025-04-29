@@ -73,6 +73,7 @@ public class Main {
         Formula implication1 = new Implication(p, q);
         Formula implication2 = new Implication(r, s);
         Formula complexFormula = new Conjunction(implication1, implication2);
+        Formula biconditional = new Biconditional(p, q);
 
         // Print the original formula
         System.out.println("Original formula: " + complexFormula);
@@ -81,6 +82,11 @@ public class Main {
         Formula cnfFormula = CNFConverter.toCNF(complexFormula);
 
         // Print the CNF version
+        System.out.println("CNF formula: " + cnfFormula);
+
+        cnfFormula = CNFConverter.toCNF(biconditional);
+
+        System.out.println("Original formula: " + biconditional);
         System.out.println("CNF formula: " + cnfFormula);
 
         // Test Resolution

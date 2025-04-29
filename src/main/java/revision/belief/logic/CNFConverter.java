@@ -4,6 +4,9 @@ public class CNFConverter {
 
     public static Formula toCNF(Formula formula) {
 
+        // Eliminate biconditionals
+        formula = eliminateBiconditional(formula);
+
         // Eliminate implications
         Formula noImplications = eliminateImplications(formula);
 
@@ -14,6 +17,17 @@ public class CNFConverter {
         Formula cnf = distributeOrOverAnd(negationsInward);
 
         return cnf;
+    }
+
+    private static Formula eliminateBiconditional(Formula formula) {
+        if (formula instanceof Biconditional) {
+            Biconditional bicond = (Biconditional) formula;
+            return new Conjunction(
+                    new Implication(bicond.getLeft(), bicond.getRight()),
+                    new Implication(bicond.getRight(), bicond.getLeft())
+            );
+        }
+        return formula;
     }
 
     private static Formula eliminateImplications(Formula formula) {
