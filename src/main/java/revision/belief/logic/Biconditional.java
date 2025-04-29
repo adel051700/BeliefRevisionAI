@@ -1,5 +1,7 @@
 package revision.belief.logic;
 
+import revision.belief.beliefbase.BeliefBase;
+
 public class Biconditional implements Formula {
     private final Formula left;
     private final Formula right;
@@ -33,6 +35,15 @@ public class Biconditional implements Formula {
         Biconditional other = (Biconditional) obj;
         return (left.equals(other.left) && right.equals(other.right)) ||
                (left.equals(other.right) && right.equals(other.left));
+    }
+
+    @Override
+    public boolean isConsistent() {
+        BeliefBase tempBase = new BeliefBase();
+        tempBase.addBelief(this,1);
+
+        Formula contradiction = new Conjunction(new Atom("contradiction"), new Negation(new Atom("contradiction")));
+        return !tempBase.entails(contradiction);
     }
 
     @Override

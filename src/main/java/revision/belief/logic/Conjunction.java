@@ -1,5 +1,7 @@
 package revision.belief.logic;
 
+import revision.belief.beliefbase.BeliefBase;
+
 public class Conjunction implements Formula {
     private final Formula left;
     private final Formula right;
@@ -21,6 +23,15 @@ public class Conjunction implements Formula {
     public Formula negate() {
         // De Morgan's Law: ¬(A ∧ B) ⟺ (¬A ∨ ¬B)
         return new Disjunction(left.negate(), right.negate());
+    }
+
+    @Override
+    public boolean isConsistent() {
+        BeliefBase tempBase = new BeliefBase();
+        tempBase.addBelief(this,1);
+
+        Formula contradiction = new Conjunction(new Atom("contradiction"), new Negation(new Atom("contradiction")));
+        return !tempBase.entails(contradiction);
     }
 
     @Override
