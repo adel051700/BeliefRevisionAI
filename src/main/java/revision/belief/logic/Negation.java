@@ -1,5 +1,7 @@
 package revision.belief.logic;
 
+import revision.belief.beliefbase.BeliefBase;
+
 public class Negation implements Formula {
     private final Formula formula;
 
@@ -14,6 +16,15 @@ public class Negation implements Formula {
     @Override
     public Formula negate() {
         return formula; // Double negation elimination
+    }
+
+    @Override
+    public boolean isConsistent() {
+        BeliefBase tempBase = new BeliefBase();
+        tempBase.addBelief(this,1);
+
+        Formula contradiction = new Conjunction(new Atom("contradiction"), new Negation(new Atom("contradiction")));
+        return !tempBase.entails(contradiction);
     }
 
     @Override

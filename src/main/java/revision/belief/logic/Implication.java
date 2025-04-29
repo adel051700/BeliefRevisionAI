@@ -1,5 +1,7 @@
 package revision.belief.logic;
 
+import revision.belief.beliefbase.BeliefBase;
+
 public class Implication implements Formula {
     private final Formula antecedent;
     private final Formula consequent;
@@ -21,6 +23,15 @@ public class Implication implements Formula {
     public Formula negate() {
         // ¬(A → B) ⟺ A ∧ ¬B
         return new Conjunction(antecedent, consequent.negate());
+    }
+
+    @Override
+    public boolean isConsistent() {
+        BeliefBase tempBase = new BeliefBase();
+        tempBase.addBelief(this,1);
+
+        Formula contradiction = new Conjunction(new Atom("contradiction"), new Negation(new Atom("contradiction")));
+        return !tempBase.entails(contradiction);
     }
 
     @Override
