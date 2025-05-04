@@ -1,6 +1,7 @@
 package revision.belief;
 import revision.belief.beliefbase.BeliefBase;
 import revision.belief.logic.*;
+import revision.belief.agm.Agm;
 
 import java.util.HashSet;
 import java.util.Set;

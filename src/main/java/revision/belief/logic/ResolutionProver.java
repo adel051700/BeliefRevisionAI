@@ -109,9 +109,8 @@ public class ResolutionProver {
         // by using entails(formulas, tautology)
 
         // Using p ∨ ¬p as a tautology
-        Atom p = new Atom("p");
-        Formula tautology = new Disjunction(p, new Negation(p));
+        Atom p = new Atom("__p__");
 
-        return entails(formulas, tautology);
+        return entails(formulas, p) && entails(formulas, new Negation(p));
     }
 }
