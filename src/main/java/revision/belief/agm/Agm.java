@@ -8,7 +8,7 @@ import java.text.Normalizer;
 
 public class Agm {
 
-    public void Agm() {
+    public Agm() {
         // Constructor
     }
 
