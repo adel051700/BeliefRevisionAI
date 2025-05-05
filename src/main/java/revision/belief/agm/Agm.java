@@ -37,12 +37,8 @@ public class Agm {
         return false;
     }
 
-    public boolean satisfyConsistency(BeliefBase base, Formula formula, int priority) {
-        if(formula != null && base.entails(new Negation(formula))) {
-            return true;
-        }
-        Revision.revise(base, formula, priority);
-        return base.isConsistent();
+    public boolean satisfyConsistency(BeliefBase revisedBase) {
+        return revisedBase.isConsistent();
     }
 
     public boolean satisfyExtensionality(BeliefBase base, Formula formula, int priority) {
