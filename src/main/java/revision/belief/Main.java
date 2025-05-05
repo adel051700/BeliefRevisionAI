@@ -52,8 +52,8 @@ public class Main {
         System.out.println("Contains p: " + beliefBase.contains(p));
         System.out.println("Contains r: " + beliefBase.contains(r));
 
-        System.out.println("\nRemoving p from belief base...");
-        beliefBase.removeFormula(p);
+        System.out.println("\nRemoving p from belief base using contract...");
+        Revision.contract(beliefBase, p);
         System.out.println("Updated belief base:");
         System.out.println(beliefBase);
 

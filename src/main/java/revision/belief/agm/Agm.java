@@ -4,7 +4,6 @@ import revision.belief.beliefbase.BeliefBase;
 import revision.belief.logic.*;
 import revision.belief.revision.Revision;
 
-import java.text.Normalizer;
 
 public class Agm {
 

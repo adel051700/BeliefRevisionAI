@@ -16,9 +16,10 @@ public class Revision {
     }
 
     public static void revise(BeliefBase base, Formula formula, int priority) {
-        Formula negatedFormula = formula.negate();
-        contract(base, negatedFormula);
-        expand(base, formula, priority);
+        BeliefBase tempBase = base.clone();
+        expand(tempBase, formula, priority);
+        if(tempBase.isConsistent()) {
+            expand(base, formula, priority);
+        }
     }
-
 }
