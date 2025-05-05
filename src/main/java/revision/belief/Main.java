@@ -162,14 +162,15 @@ public class Main {
                     System.out.println("Invalid input.");
             }
         }
-
+        if(!input.equals("exit")) {
+            System.out.println("You entered: " + userFormula);
         System.out.println("Give a priority to the formula: ");
         int priority = scanner.nextInt();
         beliefBase.addBelief(userFormula, priority);
         System.out.println("Updated belief base after revision:");
         System.out.println(beliefBase);
         System.out.println(("Belief base contains " + userFormula + ": " + beliefBase.contains(userFormula)));
-
+        }
 
         // Test AGM properties
         Agm agm = new Agm();
