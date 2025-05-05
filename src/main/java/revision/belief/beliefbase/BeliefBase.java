@@ -12,11 +12,28 @@ public class BeliefBase {
         this.beliefs = new ArrayList<>();
     }
 
-    public void addBelief(Formula formula, int priority) {
-        beliefs.add(new BeliefEntry(formula, priority));
-        // Sort beliefs by priority (higher priority first)
-        beliefs.sort(Comparator.comparing(BeliefEntry::getPriority).reversed());
+public void addBelief(Formula formula, int priority) {
+    // Check if formula already exists
+    for (BeliefEntry entry : beliefs) {
+        if (entry.getFormula().equals(formula)) {
+            // If it exists, update priority if needed and return
+            entry.priority = Math.max(entry.priority, priority);
+            beliefs.sort(Comparator.comparing(BeliefEntry::getPriority).reversed());
+            return;
+        }
     }
+
+    // Add the new belief
+    beliefs.add(new BeliefEntry(formula, priority));
+
+    // Sort beliefs by priority (higher first)
+    beliefs.sort(Comparator.comparing(BeliefEntry::getPriority).reversed());
+
+    // Reassign priorities based on their position in the sorted list
+    for (int i = 0; i < beliefs.size(); i++) {
+        beliefs.get(i).priority = beliefs.size() - i;
+    }
+}
 
     public boolean contains(Formula formula) {
         return beliefs.stream().anyMatch(entry -> entry.getFormula().equals(formula));
@@ -46,7 +63,7 @@ public class BeliefBase {
     // Inner class to represent a belief with its priority
     public static class BeliefEntry {
         private final Formula formula;
-        private final int priority;
+        private int priority;
 
         public BeliefEntry(Formula formula, int priority) {
             this.formula = formula;
@@ -97,5 +114,11 @@ public class BeliefBase {
     }
 
 
+    public boolean equals(Object obj){
+        if (this == obj) return true;
+        if (!(obj instanceof BeliefBase)) return false;
+        BeliefBase other = (BeliefBase) obj;
+        return this.getAllFormulas().equals(other.getAllFormulas());
+    }
 
 }

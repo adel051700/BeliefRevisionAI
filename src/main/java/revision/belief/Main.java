@@ -1,8 +1,10 @@
 package revision.belief;
 import revision.belief.beliefbase.BeliefBase;
 import revision.belief.logic.*;
+import revision.belief.revision.Revision;
 import revision.belief.agm.Agm;
 
+import java.util.Scanner;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,17 +25,6 @@ public class Main {
         Formula conjunction = new Conjunction(impl1, impl2);
         Formula disjunction = new Disjunction(p, q);
         Formula negation = new Negation(p);
-
-        // Display the formulas
-        System.out.println("Basic formulas:");
-        System.out.println("p: " + p);
-        System.out.println("q: " + q);
-        System.out.println("r: " + r);
-        System.out.println("p → q: " + impl1);
-        System.out.println("q → r: " + impl2);
-        System.out.println("(p → q) ∧ (q → r): " + conjunction);
-        System.out.println("p ∨ q: " + disjunction);
-        System.out.println("¬p: " + negation);
 
         // Demonstrate negation
         System.out.println("\nNegations:");
@@ -97,8 +88,8 @@ public class Main {
 
         Formula query = new Atom("q");
 
-        //boolean result = ResolutionProver.entails(kb, query);
-        //System.out.println("Entailment result: " + result);
+        boolean result = ResolutionProver.entails(kb, query);
+        System.out.println("Entailment result: " + result);
 
         // Test BeliefBase Entailment
 
@@ -112,9 +103,84 @@ public class Main {
 
         System.out.println("Checking if belief base entails q...");
 
-        boolean result = beliefBase.entails(q);
+        //boolean result = beliefBase.entails(q);
 
         System.out.println("Entailment result: " + result);
 
+        System.out.println(beliefBase);
+
+
+        // take input from user
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter a formula (a for atom, b for biconditional, c for conjunction, d for disjunction, i for implication, n for negation): ");
+        String input = scanner.nextLine();
+        Formula userFormula = null;
+        while(userFormula==null && !input.equals("exit")) {
+            switch (input) {
+                case "a":
+                    System.out.println("Enter the name of the atom: ");
+                    String atomName = scanner.nextLine();
+                    userFormula = new Atom(atomName);
+                    break;
+                case "b":
+                    System.out.println("Enter the left formula: ");
+                    Formula left = new Atom(scanner.nextLine());
+                    System.out.println("Enter the right formula: ");
+                    Formula right = new Atom(scanner.nextLine());
+                    userFormula = new Biconditional(left, right);
+                    break;
+                case "c":
+                    System.out.println("Enter the left formula: ");
+                    left = new Atom(scanner.nextLine());
+                    System.out.println("Enter the right formula: ");
+                    right = new Atom(scanner.nextLine());
+                    userFormula = new Conjunction(left, right);
+                    break;
+                case "d":
+                    System.out.println("Enter the left formula: ");
+                    left = new Atom(scanner.nextLine());
+                    System.out.println("Enter the right formula: ");
+                    right = new Atom(scanner.nextLine());
+                    userFormula = new Disjunction(left, right);
+                    break;
+                case "i":
+                    System.out.println("Enter the left formula: ");
+                    left = new Atom(scanner.nextLine());
+                    System.out.println("Enter the right formula: ");
+                    right = new Atom(scanner.nextLine());
+                    userFormula = new Implication(left, right);
+                    break;
+                case "n":
+                    System.out.println("Enter the formula to negate: ");
+                    Formula negatedFormula = new Atom(scanner.nextLine());
+                    userFormula = new Negation(negatedFormula);
+                    break;
+                case "exit":
+                    System.out.println("Exiting...");
+                    return;
+                default:
+                    System.out.println("Invalid input.");
+            }
+        }
+
+        System.out.println("Give a priority to the formula: ");
+        int priority = scanner.nextInt();
+        beliefBase.addBelief(userFormula, priority);
+        System.out.println("Updated belief base after revision:");
+        System.out.println(beliefBase);
+        System.out.println(("Belief base contains " + userFormula + ": " + beliefBase.contains(userFormula)));
+
+
+        // Test AGM properties
+        Agm agm = new Agm();
+        Formula formula = new Biconditional(new Atom("t"), new Atom("k"));
+        Formula formula1 = new Atom("dean");
+        Formula formula2 = new Atom("phar");
+        System.out.println("\nAGM Properties:");
+        System.out.println("Satisfy Success: " + agm.satisfySuccess(beliefBase, formula, 1));
+        System.out.println("Satisfy Inclusion: " + agm.satisfyInclusion(beliefBase, formula, 1));
+        System.out.println("Satisfy Vacuity: " + agm.satisfyVacuity(beliefBase, formula, 1));
+        System.out.println("Satisfy Consistency: " + agm.satisfyConsistency(beliefBase, formula, 1));
+        System.out.println("Satisfy Extensionality: " + agm.satisfyExtensionality(beliefBase, formula, 1));
     }
 }
