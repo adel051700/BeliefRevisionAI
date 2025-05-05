@@ -175,8 +175,6 @@ public class Main {
         // Test AGM properties
         Agm agm = new Agm();
         Formula formula = new Biconditional(new Atom("t"), new Atom("k"));
-        Formula formula1 = new Atom("x");
-        Formula formula2 = new Atom("z");
         System.out.println("\nAGM Properties:");
         System.out.println("Satisfy Success: " + agm.satisfySuccess(beliefBase, formula, 1));
         System.out.println("Satisfy Inclusion: " + agm.satisfyInclusion(beliefBase, formula, 1));
